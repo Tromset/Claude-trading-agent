@@ -1,5 +1,5 @@
 ---
-name: skill-finder
+name: claude-trade
 description: Use when you need to find the right trading skill for any situation — routes questions, analyses, and trade decisions to the correct skill by keyword, intent, or scenario matching.
 ---
 
