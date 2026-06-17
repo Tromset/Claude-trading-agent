@@ -1,0 +1,36 @@
+{
+  "name": "tradingview-mcp",
+  "version": "1.0.0",
+  "description": "MCP server exposing TradingView webhook alerts and Twelve Data market data to Claude",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "tradingview-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node --esm src/index.ts",
+    "webhook": "ngrok http 3001"
+  },
+  "keywords": [
+    "mcp",
+    "tradingview",
+    "trading",
+    "claude",
+    "twelve-data"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.7.0",
+    "express": "^4.19.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "tradingview": {
+      "command": "node",
+      "args": ["/chemin/vers/tradingview-mcp/dist/index.js"],
+      "env": {
+        "TWELVE_DATA_API_KEY": "votre_cle_ici",
+        "WEBHOOK_PORT": "3001"
+      }
+    }
+  }
+}

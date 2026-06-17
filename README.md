@@ -21,8 +21,16 @@ Claude-trading-agent/
 │   └── skills/               # Runtime Claude trading skills (trading-master, claude-trade, …)
 ├── self-learning/
 │   └── skills/               # Module docs for the self-learning Python system
+├── tradingview-mcp/          # MCP server: TradingView webhooks + Twelve Data market data
 └── README.md
 ```
+
+## TradingView MCP server
+
+`tradingview-mcp/` is a TypeScript MCP server that exposes live market data
+(Twelve Data) and TradingView webhook alerts to Claude via stdio. See
+`tradingview-mcp/README.md` for setup. Tools: `get_quote`, `get_indicator`,
+`get_alerts`, `get_history`.
 
 ## Self-learning system skills
 
