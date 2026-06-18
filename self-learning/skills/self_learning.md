@@ -42,11 +42,51 @@ context = learner.get_context_for_advisor("AAPL", "rsi")
 # "Historical context for AAPL/rsi: 8 recent trades, 6/8 wins, avg P&L 2.10%, ..."
 ```
 
+### 5. Claude Memory
+Beyond strategy weights, Claude keeps a **persistent memory** of what it learned,
+so each new session starts with everything learned so far. This is implemented by
+the dependency-free `ClaudeMemory` class in `self-learning/claude_memory.py`, with
+storage under `self-learning/memory/`.
+
+```python
+from claude_memory import ClaudeMemory
+
+mem = ClaudeMemory()
+
+# Learn from a closed trade (records a lesson + updates aggregate stats)
+mem.learn_from_trade({
+    "symbol": "AAPL", "strategy": "rsi",
+    "pnl_pct": 0.038, "exit_reason": "take_profit", "hold_days": 12,
+})
+
+# Claude can change its own memory: durable rules / convictions
+mem.update_memory("rule:no_fomc_trades", True)
+
+# Recall relevant lessons to inform a new decision
+context = mem.get_context_for_advisor("AAPL", "rsi")
+
+# At the end of a session, consolidate lessons into long-term memory
+mem.end_session()
+```
+
+| Method | Role |
+|---|---|
+| `learn_from_trade(trade)` | Derive and store a lesson from a closed trade |
+| `record_lesson(text, tags)` | Store a free-form lesson Claude wants to remember |
+| `update_memory(key, value)` | Let Claude edit its persistent rules/convictions |
+| `recall(...)` / `get_context_for_advisor(...)` | Retrieve relevant memory as context |
+| `end_session()` / `consolidate()` | Merge the session into long-term memory |
+
 ## Persistent Storage
-All data is stored as JSON in the `data/` directory:
+Strategy-learning data is stored as JSON in the `data/` directory:
 - `data/trade_history.json` — raw trade records
 - `data/strategy_weights.json` — current strategy weights
 - `data/learning_log.json` — Claude learning insights log
+
+Claude's cross-session memory lives in `self-learning/memory/`:
+- `memory/memory.json` — consolidated long-term memory (stats, lessons, rules)
+- `memory/MEMORY.md` — human/Claude-readable summary (auto-regenerated)
+- `memory/sessions/<id>.json` — raw lessons recorded per session
 
 ## CLI
 ```bash
